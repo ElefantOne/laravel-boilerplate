@@ -1,0 +1,3 @@
+FROM docker.io/denoland/deno:debian
+
+WORKDIR /app/frontend

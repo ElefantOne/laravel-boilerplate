@@ -24,14 +24,14 @@ queue:
 down:
     - podman compose down
 
-bun-install:
-    - cd apps/frontend && bun install
+deno-install:
+    - cd apps/frontend && deno install
 
-bun-dev: bun-install
-    - cd apps/frontend && bun run dev
+deno-dev: deno-install
+    - cd apps/frontend && deno task dev
 
-bun-prod: bun-install
-    - cd apps/frontend && bun run build
+deno-prod: deno-install
+    - cd apps/frontend && deno task build
 
 lang-update:
     - podman exec -it apps_dev php artisan lang:update
@@ -54,13 +54,13 @@ console:
 
 lint:
     - podman run --rm -i docker.io/hadolint/hadolint < Containerfile
-    - podman run --rm -i docker.io/hadolint/hadolint < Containerfile.node
+    - podman run --rm -i docker.io/hadolint/hadolint < Containerfile.deno
 
-build-node-image:
-    - podman build -f Containerfile.node --tag node_dev:1.0 .
+build-deno-image:
+    - podman build -f Containerfile.deno --tag deno_dev:1.0 .
 
-update-frontend: build-node-image
-    - podman run --rm -it -v ./apps/frontend:/app/frontend node_dev:1.0 sh -c "npm-check-updates --format group -i"
+update-frontend: build-deno-image
+    - podman run --rm -it -v ./apps/frontend:/app/frontend deno_dev:1.0 sh -c "deno run -A npm:npm-check-updates --format group -i"
 
 install-dockerfmt:
     - go install github.com/reteps/dockerfmt@latest
@@ -73,5 +73,5 @@ fmt:
     - podman run --rm -v .:/code -i docker.io/library/caddy:alpine caddy fmt --overwrite /code/Caddyfile
     - just --fmt --unstable
     - dockerfmt --write Containerfile
-    - dockerfmt --write Containerfile.node
+    - dockerfmt --write Containerfile.deno
     - dprint fmt

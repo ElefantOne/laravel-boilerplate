@@ -10,7 +10,7 @@
 ### Requirements
 
 - [podman](https://podman.io) >= 4.9
-- [just](https://github.com/casey/just), [bun](https://bun.sh), [dockerfmt](https://github.com/reteps/dockerfmt), [dprint](https://github.com/dprint/dprint)
+- [just](https://github.com/casey/just), [deno](https://deno.com), [dockerfmt](https://github.com/reteps/dockerfmt), [dprint](https://github.com/dprint/dprint)
 
 ### Usage
 
@@ -48,14 +48,14 @@ just down
 Install asset deps:
 
 ```bash
-just bun-install
+just deno-install
 ```
 
 Build assets:
 
 ```bash
-just bun-dev
-just bun-prod
+just deno-dev
+just deno-prod
 ```
 
 Update locales:
