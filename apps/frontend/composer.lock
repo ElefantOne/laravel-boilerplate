@@ -8895,16 +8895,16 @@
     "packages-dev": [
         {
             "name": "carthage-software/mago",
-            "version": "1.14.0",
+            "version": "1.30.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/carthage-software/mago.git",
-                "reference": "197dae097f525914ed7451b3d2fd7432adf104a7"
+                "reference": "0e8a3644d974984069fa27b0ffbb44123b1b74cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/carthage-software/mago/zipball/197dae097f525914ed7451b3d2fd7432adf104a7",
-                "reference": "197dae097f525914ed7451b3d2fd7432adf104a7",
+                "url": "https://api.github.com/repos/carthage-software/mago/zipball/0e8a3644d974984069fa27b0ffbb44123b1b74cd",
+                "reference": "0e8a3644d974984069fa27b0ffbb44123b1b74cd",
                 "shasum": ""
             },
             "require": {
@@ -8919,9 +8919,12 @@
             "type": "library",
             "autoload": {
                 "files": [
-                    "composer/functions.php",
-                    "composer/internal.php"
-                ]
+                    "composer/src/functions.php",
+                    "composer/src/internal.php"
+                ],
+                "psr-4": {
+                    "Mago\\": "composer/src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -8939,7 +8942,7 @@
             ],
             "support": {
                 "issues": "https://github.com/carthage-software/mago/issues",
-                "source": "https://github.com/carthage-software/mago/tree/1.14.0"
+                "source": "https://github.com/carthage-software/mago/tree/1.30.0"
             },
             "funding": [
                 {
@@ -8947,7 +8950,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-03-09T20:07:15+00:00"
+            "time": "2026-06-04T15:46:37+00:00"
         },
         {
             "name": "codezero/browser-locale",
@@ -13123,9 +13126,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "carthage-software/mago": 5
-    },
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
