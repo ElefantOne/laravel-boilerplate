@@ -11,10 +11,10 @@ build:
     - rm -rf ./apps
 
 up:
-    - podman compose up -d
+    - podman-compose up -d
 
 down:
-    - podman compose down
+    - podman-compose down
 
 migrate:
     - podman exec -it apps_prod php artisan migrate
@@ -23,7 +23,7 @@ console:
     - podman exec -it apps_prod sh
 
 logs:
-    - podman compose logs -f
+    - podman-compose logs -f
 
 lint:
     - podman run --rm -i docker.io/hadolint/hadolint < Dockerfile
