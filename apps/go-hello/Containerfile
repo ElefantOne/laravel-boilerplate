@@ -1,4 +1,4 @@
-FROM docker.io/library/golang:1.26.0-alpine3.23 AS build
+FROM docker.io/library/golang:1.26.10-alpine3.24 AS build
 
 WORKDIR /app
 
@@ -25,7 +25,7 @@ COPY . .
 RUN CGO_LDFLAGS="$CGO_LDFLAGS -lstdc++ -lm" \
     go build -v -a -o server ./...
 
-FROM docker.io/library/alpine:3.23
+FROM docker.io/library/alpine:3.24
 
 WORKDIR /app
 
