@@ -1,21 +1,20 @@
-[velox]
-build_args = [
-  '-trimpath',
-  '-ldflags',
-  '-s -X github.com/roadrunner-server/roadrunner/v2025/internal/meta.version=v2025.1.8 -X github.com/roadrunner-server/roadrunner/v2025/internal/meta.buildTime=${TIME}',
-]
-
 [roadrunner]
-ref = "v2025.1.8"
+ref = "v3.0.1"
 
-[github]
 [github.token]
 token = "${RT_TOKEN}"
 
-[github.plugins]
-logger = { ref = "v5.1.9", owner = "roadrunner-server", repository = "logger" }
-http = { ref = "v5.3.0", owner = "roadrunner-server", repository = "http" }
-server = { ref = "v5.2.10", owner = "roadrunner-server", repository = "server" }
+[plugins.logger]
+tag = "v6.0.0"
+module_name = "github.com/roadrunner-server/logger/v6"
+
+[plugins.http]
+tag = "v6.1.0"
+module_name = "github.com/roadrunner-server/http/v6"
+
+[plugins.server]
+tag = "v6.0.0"
+module_name = "github.com/roadrunner-server/server/v6"
 
 [debug]
 enabled = false
