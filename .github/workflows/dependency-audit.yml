@@ -31,7 +31,7 @@ jobs:
 
       - name: Run audit
         continue-on-error: true
-        run: yarn audit --json > security-audit.json
+        run: NODE_OPTIONS="--no-deprecation" yarn audit --json > security-audit.json
 
       - name: Generate report
         continue-on-error: true
