@@ -29,9 +29,9 @@ RUN git clone -b issue-php85 https://github.com/remicollet/php-zmq.git \
     && make install \
     && cd /app \
     && rm -rf php-zmq \
-    && wget -q https://github.com/caddyserver/caddy/releases/download/v2.11.1/caddy_2.11.1_linux_$CADDY_ARCH.tar.gz \
-    && tar xzf caddy_2.11.1_linux_$CADDY_ARCH.tar.gz \
-    && rm caddy_2.11.1_linux_$CADDY_ARCH.tar.gz LICENSE README.md \
+    && wget -q https://github.com/caddyserver/caddy/releases/download/v2.11.7/caddy_2.11.7_linux_$CADDY_ARCH.tar.gz \
+    && tar xzf caddy_2.11.7_linux_$CADDY_ARCH.tar.gz \
+    && rm caddy_2.11.7_linux_$CADDY_ARCH.tar.gz LICENSE README.md \
     && cd /tmp \
     && mv /tmp/Caddyfile /app \
     && mv /tmp/apps/frontend /app \
