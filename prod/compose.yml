@@ -13,6 +13,7 @@ services:
       - php
       - artisan
       - octane:roadrunner
+      - --host=0.0.0.0
       - --rr-config
       - /app/frontend/.rr.yaml
     depends_on:
