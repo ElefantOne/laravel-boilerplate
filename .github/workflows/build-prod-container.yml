@@ -29,7 +29,13 @@ jobs:
 
       - name: Build RoadRunner
         working-directory: ./prod/rr
-        run: sh build.sh
+        run: |
+          podman build --file Containerfile --tag laravel-roadrunner-builder:1.0 .
+          podman run --rm \
+            --env RT_TOKEN \
+            --volume "$PWD:/workspace" \
+            --workdir /workspace \
+            laravel-roadrunner-builder:1.0
 
       - name: Login to GHCR
         run: echo ${{ secrets.GITHUB_TOKEN }} | podman login ghcr.io -u ${{ github.actor }} --password-stdin

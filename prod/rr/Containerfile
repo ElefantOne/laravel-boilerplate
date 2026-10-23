@@ -1,13 +1,12 @@
 FROM docker.io/library/golang:1.27.3-alpine
 
-RUN apk add --no-cache binutils file wget
-
-WORKDIR /opt/velox
-
-COPY download.sh .
-
-RUN sh download.sh \
-    && mv vx /usr/local/bin/vx \
-    && rm -f download.sh
+RUN apk add --no-cache binutils file wget \
+    && velox_version=3.0.0 \
+    && wget -q "https://github.com/roadrunner-server/velox/releases/download/v${velox_version}/velox-${velox_version}-linux-amd64.tar.gz" \
+    && tar -xzf "velox-${velox_version}-linux-amd64.tar.gz" \
+    && mv "velox-${velox_version}-linux-amd64/vx" /usr/local/bin/vx \
+    && rm -rf "velox-${velox_version}-linux-amd64" "velox-${velox_version}-linux-amd64.tar.gz"
 
 WORKDIR /workspace
+
+CMD ["sh", "-ec", "CGO_ENABLED=0 GOOS=linux GOARCH=amd64 vx build -c velox.toml -o . && strip -s ./rr && file ./rr"]
