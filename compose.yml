@@ -96,19 +96,19 @@ services:
     ulimits:
       memlock: -1
 
-  minio:
-    image: docker.io/minio/minio:latest
-    container_name: minio_dev
-    command: [
-      "server",
-      "--console-address",
-      ":9001",
-      "/data",
-    ]
+  rustfs:
+    image: docker.io/rustfs/rustfs:latest
+    container_name: rustfs_dev
+    command: ["/data"]
     env_file:
       - dev.env
+    environment:
+      RUSTFS_ADDRESS: ":9000"
+      RUSTFS_CONSOLE_ADDRESS: ":9001"
+      RUSTFS_CONSOLE_ENABLE: "true"
+      RUSTFS_VOLUMES: /data
     volumes:
-      - minio_data:/data
+      - rustfs_data:/data
     ports:
       - "9000:9000"
       - "9001:9001"
@@ -127,8 +127,8 @@ services:
 volumes:
   redis_data:
     name: redis_dev_data
-  minio_data:
-    name: minio_dev_data
+  rustfs_data:
+    name: rustfs_dev_data
 
 networks:
   app_dev:

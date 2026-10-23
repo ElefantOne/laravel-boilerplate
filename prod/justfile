@@ -1,7 +1,7 @@
 pull:
     - podman pull docker.io/library/redis:8-alpine3.23
     - podman pull docker.io/library/caddy:2.10-alpine
-    - podman pull docker.io/minio/minio:latest
+    - podman pull docker.io/rustfs/rustfs:latest
 
 build:
     - cp -r ../apps .

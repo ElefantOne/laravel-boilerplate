@@ -79,7 +79,7 @@
                     &bull;
                     <a href="http://{{ request()->getHost() }}:{{ request()->getPort() }}/horizon" class="hover:underline">Horizon</a>
                     &bull;
-                    <a href="http://{{ request()->getHost() }}:9001/login" class="hover:underline">MinIO Console</a>
+                    <a href="http://{{ request()->getHost() }}:9001/" class="hover:underline">RustFS Console</a>
                     &bull;
                     <a href="http://{{ request()->getHost() }}:8000" class="hover:underline">Buggregator</a>
                 @else

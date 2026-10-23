@@ -4,7 +4,7 @@ pull:
     - podman pull docker.io/library/caddy:latest
     - podman pull ghcr.io/buggregator/server:latest
     - podman pull docker.io/library/redis:latest
-    - podman pull docker.io/minio/minio:latest
+    - podman pull docker.io/rustfs/rustfs:latest
 
 build:
     - podman build --force-rm --load --tag laravel_app_dev:1.0 .
