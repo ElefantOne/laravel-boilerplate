@@ -13,6 +13,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->app->bind(
+            \Laravel\Octane\Commands\StartRoadRunnerCommand::class,
+            \App\Console\Commands\StartRoadRunnerCommand::class,
+        );
+
         if ($this->app->environment('local')) {
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
