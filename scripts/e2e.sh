@@ -31,7 +31,7 @@ trap cleanup EXIT
 cp dev-frontend.env apps/frontend/.env
 
 docker build --tag laravel_app_dev:1.0 --file Containerfile .
-docker build --tag go_hello:1.0 apps/go-hello
+docker build --tag go_hello:1.0 --file apps/go-hello/Containerfile apps/go-hello
 
 "${compose[@]}" up -d apps caddy buggregator kividb rustfs go-hello
 
