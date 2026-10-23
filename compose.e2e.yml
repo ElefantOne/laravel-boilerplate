@@ -1,0 +1,13 @@
+services:
+  queue:
+    image: laravel_app_dev:1.0
+    container_name: queue_e2e
+    env_file:
+      - dev.env
+    volumes:
+      - ./apps:/app
+    command: ["php", "artisan", "horizon"]
+    networks:
+      - app_dev
+    depends_on:
+      - kividb
