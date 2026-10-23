@@ -76,12 +76,15 @@ if (!$redis->auth(getenv("REDIS_PASSWORD")) || $redis->ping() === false) {
 }
 wait_for "KiviDB authenticated connection" check_kividb
 
-"${compose[@]}" exec -T apps php artisan cache:put e2e:cache connected 60
-cache_value=$("${compose[@]}" exec -T apps php artisan cache:get e2e:cache)
-if [[ "$cache_value" != "connected" ]]; then
-  echo "Laravel cache did not round-trip through KiviDB" >&2
-  exit 1
-fi
+"${compose[@]}" exec -T apps php -r '
+require "vendor/autoload.php";
+$app = require "bootstrap/app.php";
+$app->make(\Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+\Illuminate\Support\Facades\Cache::put("e2e:cache", "connected", 60);
+if (\Illuminate\Support\Facades\Cache::get("e2e:cache") !== "connected") {
+    exit(1);
+}
+'
 
 docker run --rm --network app_dev \
   -e AWS_ACCESS_KEY_ID \
