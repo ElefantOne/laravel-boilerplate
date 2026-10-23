@@ -86,21 +86,27 @@ if (\Illuminate\Support\Facades\Cache::get("e2e:cache") !== "connected") {
 }
 '
 
-docker run --rm --network app_dev \
-  -e AWS_ACCESS_KEY_ID \
-  -e AWS_SECRET_ACCESS_KEY \
-  amazon/aws-cli:2 \
-  s3api create-bucket --bucket "$AWS_BUCKET" --endpoint-url http://rustfs:9000 --region "$AWS_DEFAULT_REGION"
+if ! "${compose[@]}" exec -T apps php -r '
+require "vendor/autoload.php";
+$app = require "bootstrap/app.php";
+$app->make(\Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+$disk = \Illuminate\Support\Facades\Storage::disk("s3");
+$disk->getClient()->createBucket(["Bucket" => config("filesystems.disks.s3.bucket")]);
+'; then
+  echo "Could not create the RustFS test bucket" >&2
+  exit 1
+fi
 
 "${compose[@]}" exec -T apps php artisan app:test-put-file-command
-object_size=$(docker run --rm --network app_dev \
-  -e AWS_ACCESS_KEY_ID \
-  -e AWS_SECRET_ACCESS_KEY \
-  amazon/aws-cli:2 \
-  s3api head-object --bucket "$AWS_BUCKET" --key first.txt \
-    --endpoint-url http://rustfs:9000 --region "$AWS_DEFAULT_REGION" \
-    --query ContentLength --output text)
-if [[ "$object_size" != "12" ]]; then
+if ! "${compose[@]}" exec -T apps php -r '
+require "vendor/autoload.php";
+$app = require "bootstrap/app.php";
+$app->make(\Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+$contents = \Illuminate\Support\Facades\Storage::disk("s3")->get("first.txt");
+if ($contents !== "Some content") {
+    exit(1);
+}
+'; then
   echo "Laravel did not write the expected object to RustFS" >&2
   exit 1
 fi
