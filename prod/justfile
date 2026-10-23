@@ -9,11 +9,11 @@ pull:
     - {{engine}} pull docker.io/rustfs/rustfs:latest
 
 build:
-    - cp -r ../apps .
-    - cp -r ./rr/rr apps/frontend
-    - {{engine}} build --force-rm --build-arg CADDY_ARCH=amd64 --tag laravel_app_prod:1.0 .
-    - {{engine}} image prune -f
-    - rm -rf ./apps
+    cp -r ../apps .
+    cp -r ./rr/rr apps/frontend
+    {{engine}} build --file Containerfile --force-rm --build-arg CADDY_ARCH=amd64 --tag laravel_app_prod:1.0 .
+    {{engine}} image prune -f
+    rm -rf ./apps
 
 up:
     - {{compose}} up -d
@@ -31,7 +31,7 @@ logs:
     - {{compose}} logs -f
 
 lint:
-    - {{engine}} run --rm -i docker.io/hadolint/hadolint < Dockerfile
+    {{engine}} run --rm -i docker.io/hadolint/hadolint < Containerfile
 
 fmt: pull
     - {{engine}} run --rm -v "$PWD:/code" -i caddy:2.10-alpine caddy validate --config /code/Caddyfile
