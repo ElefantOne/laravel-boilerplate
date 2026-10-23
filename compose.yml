@@ -81,7 +81,8 @@ services:
     container_name: kividb_dev
     env_file:
       - dev-frontend.env
-    command: ["--port", "6379", "--aof", "--requirepass", "${REDIS_PASSWORD}"]
+    entrypoint: ["/bin/sh", "-ec"]
+    command: ["exec kividb --port 6379 --aof --requirepass \"$$REDIS_PASSWORD\""]
     volumes:
       - kividb_data:/home/kividb
     networks:
