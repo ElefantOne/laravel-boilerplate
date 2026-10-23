@@ -3,6 +3,9 @@
 ### Usage
 
 ```bash
+# Select Docker; omit this to use Podman (the default).
+export CONTAINER_ENGINE=docker
+
 # Pull newer images
 just pull
 

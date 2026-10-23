@@ -1,11 +1,13 @@
+engine := env_var_or_default("CONTAINER_ENGINE", "podman")
+
 build-local:
     - go build -o go_hello ./main.go
 
 build:
-    - podman build --tag go_hello:1.0 .
+    - {{engine}} build --tag go_hello:1.0 .
 
 lint:
-    - podman run --rm -i docker.io/hadolint/hadolint < Containerfile
+    - {{engine}} run --rm -i docker.io/hadolint/hadolint < Containerfile
 
 fmt:
     - just --fmt --unstable

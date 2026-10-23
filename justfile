@@ -1,28 +1,31 @@
 set dotenv-path := "dev-frontend.env"
 
+engine := env_var_or_default("CONTAINER_ENGINE", "podman")
+compose := if engine == "docker" { "docker compose" } else { "podman-compose" }
+
 pull:
-    - podman pull docker.io/library/caddy:latest
-    - podman pull ghcr.io/buggregator/server:latest
-    - podman pull ghcr.io/kividbio/kividb:v1.1.0-lua
-    - podman pull docker.io/rustfs/rustfs:latest
+    - {{engine}} pull docker.io/library/caddy:latest
+    - {{engine}} pull ghcr.io/buggregator/server:latest
+    - {{engine}} pull ghcr.io/kividbio/kividb:v1.1.0-lua
+    - {{engine}} pull docker.io/rustfs/rustfs:latest
 
 build:
-    - podman build --force-rm --load --tag laravel_app_dev:1.0 .
-    - podman image prune -f
+    - {{engine}} build --force-rm --tag laravel_app_dev:1.0 .
+    - {{engine}} image prune -f
 
 install:
-    - podman exec -it apps_dev sh -c 'composer install && php artisan telescope:publish'
-    - podman exec -it apps_dev php artisan key:generate
-    - podman exec -it apps_dev php artisan migrate --force
+    - {{engine}} exec -it apps_dev sh -c 'composer install && php artisan telescope:publish'
+    - {{engine}} exec -it apps_dev php artisan key:generate
+    - {{engine}} exec -it apps_dev php artisan migrate --force
 
 up:
-    - podman-compose up -d
+    - {{compose}} up -d
 
 queue:
-    - podman exec -it apps_dev php artisan horizon
+    - {{engine}} exec -it apps_dev php artisan horizon
 
 down:
-    - podman-compose down
+    - {{compose}} down
 
 deno-install:
     - cd apps/frontend && deno install
@@ -34,33 +37,33 @@ deno-prod: deno-install
     - cd apps/frontend && deno task build
 
 lang-update:
-    - podman exec -it apps_dev php artisan lang:update
+    - {{engine}} exec -it apps_dev php artisan lang:update
 
 check-code:
-    - podman exec -it apps_dev sh check-code.sh
+    - {{engine}} exec -it apps_dev sh check-code.sh
 
 test:
-    - podman exec -it apps_dev php artisan test
+    - {{engine}} exec -it apps_dev php artisan test
 
 check-security:
-    - podman exec -it apps_dev security-checker security:check composer.lock
-    - podman exec -it apps_dev composer audit
+    - {{engine}} exec -it apps_dev security-checker security:check composer.lock
+    - {{engine}} exec -it apps_dev composer audit
 
 logs:
-    - podman-compose logs -f
+    - {{compose}} logs -f
 
 console:
-    - podman exec -it apps_dev sh
+    - {{engine}} exec -it apps_dev sh
 
 lint:
-    - podman run --rm -i docker.io/hadolint/hadolint < Containerfile
-    - podman run --rm -i docker.io/hadolint/hadolint < Containerfile.deno
+    - {{engine}} run --rm -i docker.io/hadolint/hadolint < Containerfile
+    - {{engine}} run --rm -i docker.io/hadolint/hadolint < Containerfile.deno
 
 build-deno-image:
-    - podman build -f Containerfile.deno --tag deno_dev:1.0 .
+    - {{engine}} build -f Containerfile.deno --tag deno_dev:1.0 .
 
 update-frontend: build-deno-image
-    - podman run --rm -it -v ./apps/frontend:/app/frontend deno_dev:1.0 sh -c "deno run -A npm:npm-check-updates --format group -i"
+    - {{engine}} run --rm -it -v "$PWD/apps/frontend:/app/frontend" deno_dev:1.0 sh -c "deno run -A npm:npm-check-updates --format group -i"
 
 install-dockerfmt:
     - go install github.com/reteps/dockerfmt@latest
@@ -69,8 +72,8 @@ install-dprint:
     - cargo install --locked dprint
 
 fmt:
-    - podman run --rm -v .:/code -i docker.io/library/caddy:alpine caddy validate --config /code/Caddyfile
-    - podman run --rm -v .:/code -i docker.io/library/caddy:alpine caddy fmt --overwrite /code/Caddyfile
+    - {{engine}} run --rm -v "$PWD:/code" -i docker.io/library/caddy:alpine caddy validate --config /code/Caddyfile
+    - {{engine}} run --rm -v "$PWD:/code" -i docker.io/library/caddy:alpine caddy fmt --overwrite /code/Caddyfile
     - just --fmt --unstable
     - dockerfmt --write Containerfile
     - dockerfmt --write Containerfile.deno

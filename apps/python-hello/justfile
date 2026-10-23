@@ -1,8 +1,10 @@
+engine := env_var_or_default("CONTAINER_ENGINE", "podman")
+
 build:
-    - podman build --tag python_hello:1.0 .
+    - {{engine}} build --tag python_hello:1.0 .
 
 lint:
-    - podman run --rm -i docker.io/hadolint/hadolint < Containerfile
+    - {{engine}} run --rm -i docker.io/hadolint/hadolint < Containerfile
 
 fmt:
     - just --fmt --unstable

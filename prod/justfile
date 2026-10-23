@@ -1,37 +1,40 @@
 set dotenv-path := "prod-frontend.env"
 
+engine := env_var_or_default("CONTAINER_ENGINE", "podman")
+compose := if engine == "docker" { "docker compose" } else { "podman-compose" }
+
 pull:
-    - podman pull ghcr.io/kividbio/kividb:v1.1.0-lua
-    - podman pull docker.io/library/caddy:2.10-alpine
-    - podman pull docker.io/rustfs/rustfs:latest
+    - {{engine}} pull ghcr.io/kividbio/kividb:v1.1.0-lua
+    - {{engine}} pull docker.io/library/caddy:2.10-alpine
+    - {{engine}} pull docker.io/rustfs/rustfs:latest
 
 build:
     - cp -r ../apps .
     - cp -r ./rr/rr apps/frontend
-    - podman build --force-rm --load --build-arg CADDY_ARCH=amd64 --tag laravel_app_prod:1.0 .
-    - podman image prune -f
+    - {{engine}} build --force-rm --build-arg CADDY_ARCH=amd64 --tag laravel_app_prod:1.0 .
+    - {{engine}} image prune -f
     - rm -rf ./apps
 
 up:
-    - podman-compose up -d
+    - {{compose}} up -d
 
 down:
-    - podman-compose down
+    - {{compose}} down
 
 migrate:
-    - podman exec -it apps_prod php artisan migrate
+    - {{engine}} exec -it apps_prod php artisan migrate
 
 console:
-    - podman exec -it apps_prod sh
+    - {{engine}} exec -it apps_prod sh
 
 logs:
-    - podman-compose logs -f
+    - {{compose}} logs -f
 
 lint:
-    - podman run --rm -i docker.io/hadolint/hadolint < Dockerfile
+    - {{engine}} run --rm -i docker.io/hadolint/hadolint < Dockerfile
 
 fmt: pull
-    - podman run --rm -v .:/code -i caddy:2.10-alpine caddy validate --config /code/Caddyfile
-    - podman run --rm -v .:/code -i caddy:2.10-alpine caddy fmt --overwrite /code/Caddyfile
+    - {{engine}} run --rm -v "$PWD:/code" -i caddy:2.10-alpine caddy validate --config /code/Caddyfile
+    - {{engine}} run --rm -v "$PWD:/code" -i caddy:2.10-alpine caddy fmt --overwrite /code/Caddyfile
     - just --fmt --unstable
     - dockerfmt --write Containerfile

@@ -4,17 +4,20 @@
 > It must:
 >
 > - be on the latest version of Laravel
-> - be lightweight to run with Podman
+> - be lightweight to run with Podman or Docker
 > - use modern technologies such as [**PHP 8.5**](https://www.php.net/releases/), [**Go 1.27**](https://go.dev/dl/), [**Python 3.15**](https://www.python.org/downloads/), etc.
 
 ### Requirements
 
-- [podman](https://podman.io) >= 4.9
+- [Docker Engine](https://docs.docker.com/engine/) with Docker Compose, or [Podman](https://podman.io) >= 4.9 with `podman-compose`
 - [just](https://github.com/casey/just), [deno](https://deno.com), [dockerfmt](https://github.com/reteps/dockerfmt), [dprint](https://github.com/dprint/dprint)
 
 ### Usage
 
 ```bash
+# Select Docker; omit this to use Podman (the default).
+export CONTAINER_ENGINE=docker
+
 # Pull newer images
 just pull
 
