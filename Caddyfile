@@ -3,7 +3,7 @@
 	admin off
 }
 
-:8080 {
+http://localhost {
 	log {
 		output stdout
 		format console

@@ -33,7 +33,7 @@ services:
     image: docker.io/library/caddy:latest
     container_name: caddy_dev
     ports:
-      - "8080:8080"
+      - "8080:80"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - ./apps:/app
