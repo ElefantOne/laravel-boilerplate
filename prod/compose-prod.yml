@@ -13,7 +13,7 @@ services:
       - --rr-config
       - /app/frontend/.rr.yaml
     depends_on:
-      - redis
+      - kividb
     networks:
       - app_prod
     logging:
@@ -42,7 +42,7 @@ services:
       - artisan
       - horizon
     depends_on:
-      - redis
+      - kividb
     networks:
       - app_prod
     logging:
@@ -71,7 +71,7 @@ services:
       - artisan
       - schedule:work
     depends_on:
-      - redis
+      - kividb
     networks:
       - app_prod
     logging:
@@ -118,18 +118,15 @@ services:
         limits:
           memory: 128M
 
-  redis:
-    image: docker.io/library/redis:8-alpine3.23
-    container_name: redis_prod
+  kividb:
+    image: ghcr.io/kividbio/kividb:v1.1.0-lua
+    container_name: kividb_prod
     restart: always
     env_file:
       - prod-frontend.env
-    command:
-      - /bin/sh
-      - -c
-      - redis-server --appendonly yes --requirepass "$${REDIS_PASSWORD}"
+    command: ["--port", "6379", "--aof", "--requirepass", "${REDIS_PASSWORD}"]
     volumes:
-      - redis_data:/data
+      - kividb_data:/home/kividb
     networks:
       - app_prod
     logging:
@@ -169,8 +166,8 @@ services:
         hard: 40000
 
 volumes:
-  redis_data:
-    name: redis_prod_data
+  kividb_data:
+    name: kividb_prod_data
   rustfs_data:
     name: rustfs_prod_data
 

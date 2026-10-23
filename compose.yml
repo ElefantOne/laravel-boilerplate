@@ -14,7 +14,7 @@ services:
     networks:
       - app_dev
     depends_on:
-      - redis
+      - kividb
     logging:
       options:
         max-size: "10m"
@@ -76,17 +76,14 @@ services:
         limits:
           memory: 512M
 
-  redis:
-    image: docker.io/library/redis:latest
-    container_name: redis_dev
+  kividb:
+    image: ghcr.io/kividbio/kividb:v1.1.0-lua
+    container_name: kividb_dev
     env_file:
       - dev-frontend.env
-    command:
-      - /bin/sh
-      - -c
-      - redis-server --appendonly yes --requirepass "$${REDIS_PASSWORD}"
+    command: ["--port", "6379", "--aof", "--requirepass", "${REDIS_PASSWORD}"]
     volumes:
-      - redis_data:/data
+      - kividb_data:/home/kividb
     networks:
       - app_dev
     logging:
@@ -125,8 +122,8 @@ services:
         hard: 40000
 
 volumes:
-  redis_data:
-    name: redis_dev_data
+  kividb_data:
+    name: kividb_dev_data
   rustfs_data:
     name: rustfs_dev_data
 

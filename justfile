@@ -1,9 +1,9 @@
-set dotenv-path := "dev.env"
+set dotenv-path := "dev-frontend.env"
 
 pull:
     - podman pull docker.io/library/caddy:latest
     - podman pull ghcr.io/buggregator/server:latest
-    - podman pull docker.io/library/redis:latest
+    - podman pull ghcr.io/kividbio/kividb:v1.1.0-lua
     - podman pull docker.io/rustfs/rustfs:latest
 
 build:

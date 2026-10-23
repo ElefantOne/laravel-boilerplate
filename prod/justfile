@@ -1,5 +1,7 @@
+set dotenv-path := "prod-frontend.env"
+
 pull:
-    - podman pull docker.io/library/redis:8-alpine3.23
+    - podman pull ghcr.io/kividbio/kividb:v1.1.0-lua
     - podman pull docker.io/library/caddy:2.10-alpine
     - podman pull docker.io/rustfs/rustfs:latest
 
