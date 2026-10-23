@@ -10,7 +10,7 @@ pull:
     - {{engine}} pull docker.io/rustfs/rustfs:latest
 
 build:
-    - {{engine}} build --force-rm --tag laravel_app_dev:1.0 .
+    - {{engine}} build --force-rm --file Containerfile --tag laravel_app_dev:1.0 .
     - {{engine}} image prune -f
 
 install:
