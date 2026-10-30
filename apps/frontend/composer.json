@@ -10,7 +10,7 @@
   "require": {
     "php": "^8.5",
     "ext-zmq": "*",
-    "guzzlehttp/guzzle": "^7.16.0",
+    "guzzlehttp/guzzle": "^8.3.1",
     "laravel-lang/locales": "^2.11.0",
     "laravel/framework": "^13.37.0",
     "laravel/horizon": "^5.50.1",
