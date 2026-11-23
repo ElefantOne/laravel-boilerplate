@@ -45,6 +45,9 @@ check-code:
 test:
     - {{engine}} exec -it apps_dev php artisan test
 
+test-coverage:
+    {{engine}} exec -it apps_dev composer test-coverage
+
 check-security:
     - {{engine}} exec -it apps_dev security-checker security:check composer.lock
     - {{engine}} exec -it apps_dev composer audit

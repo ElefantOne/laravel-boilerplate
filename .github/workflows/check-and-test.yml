@@ -25,9 +25,12 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: "8.5"
-          extensions: mbstring, xml, zip, curl, gd, bcmath, exif, fileinfo, intl, json, mysqli, pdo_mysql, soap, sqlite3
-          coverage: xdebug
-          tools: composer:v2
+          extensions: mbstring, xml, zip, curl, gd, bcmath, exif, fileinfo, intl, json, mysqli, pdo_mysql, soap, sqlite3, zmq
+          coverage: none
+          tools: composer:v2, pie
+
+      - name: Install TurboCov
+        run: sudo pie install shipmonk/turbocov:0.1.1
 
       - name: Install dependencies
         run: |
@@ -43,8 +46,8 @@ jobs:
       - name: Check code
         run: sh check-code.sh
 
-      - name: Run tests
-        run: php artisan test
+      - name: Run tests with line coverage
+        run: composer test-coverage
 
       - name: Check security
         run: |

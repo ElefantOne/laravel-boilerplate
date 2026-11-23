@@ -73,6 +73,10 @@ Apply fixes by [Mago](https://github.com/carthage-software/mago) and check code 
 just check-code
 ```
 
+Run the PHP tests with `just test` or print TurboCov line coverage for `apps/frontend/app` with `just test-coverage`.
+After upgrading an existing checkout, rebuild and recreate the dev container and run `just install` before collecting coverage.
+For Xdebug sessions in the dev container, start PHP with `-d zend_extension=xdebug.so`.
+
 Other useful commands:
 
 ```bash

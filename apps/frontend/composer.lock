@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e28decbd1dd3988e8049c4aaae744123",
+    "content-hash": "c1705fb73f9281a0f511bf716063f4c5",
     "packages": [
         {
             "name": "archtechx/enums",
@@ -13162,6 +13162,63 @@
                 }
             ],
             "time": "2026-10-04T05:51:14+00:00"
+        },
+        {
+            "name": "shipmonk/turbocov-phpunit",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/shipmonk-rnd/turbocov-phpunit.git",
+                "reference": "05b4fc716639c1e2d35c66d8352487ed485ab682"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/shipmonk-rnd/turbocov-phpunit/zipball/05b4fc716639c1e2d35c66d8352487ed485ab682",
+                "reference": "05b4fc716639c1e2d35c66d8352487ed485ab682",
+                "shasum": ""
+            },
+            "require": {
+                "ext-turbocov": "*",
+                "php": "^8.4",
+                "phpunit/php-code-coverage": "^14.3"
+            },
+            "require-dev": {
+                "editorconfig-checker/editorconfig-checker": "10.7.0",
+                "ergebnis/composer-normalize": "2.48.2",
+                "phpstan/phpstan": "2.2.0",
+                "phpstan/phpstan-phpunit": "2.0.16",
+                "phpstan/phpstan-strict-rules": "2.0.11",
+                "phpunit/phpunit": "^13.3",
+                "shipmonk/coding-standard": "^0.2.4",
+                "shipmonk/composer-dependency-analyser": "1.8.4",
+                "shipmonk/dead-code-detector": "^1.0",
+                "shipmonk/name-collision-detector": "2.1.1",
+                "shipmonk/phpstan-rules": "4.3.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ShipMonk\\Turbocov\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHPUnit code coverage driver for the turbocov extension, which runs covered code at plain PHP speed",
+            "keywords": [
+                "Xdebug",
+                "code coverage",
+                "pcov",
+                "phpunit",
+                "testing",
+                "turbocov"
+            ],
+            "support": {
+                "issues": "https://github.com/shipmonk-rnd/turbocov-phpunit/issues",
+                "source": "https://github.com/shipmonk-rnd/turbocov-phpunit/tree/0.1.0"
+            },
+            "time": "2026-11-20T07:33:18+00:00"
         },
         {
             "name": "spatie/backtrace",

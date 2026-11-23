@@ -12,6 +12,7 @@
             <directory>tests/Feature</directory>
         </testsuite>
     </testsuites>
+    <coverage driver="ShipMonk\Turbocov\TurbocovDriver"/>
     <source>
         <include>
             <directory>app</directory>
