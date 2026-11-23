@@ -24,13 +24,27 @@ jobs:
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.5"
-          extensions: mbstring, xml, zip, curl, gd, bcmath, exif, fileinfo, intl, json, mysqli, pdo_mysql, soap, sqlite3, zmq
+          php-version: "8.6"
+          extensions: mbstring, xml, zip, curl, gd, bcmath, exif, fileinfo, intl, json, mysqli, pdo_mysql, soap, sqlite3, zmq-remicollet/php-zmq@issue-php85
           coverage: none
-          tools: composer:v2, pie
+          tools: composer:v2
+        env:
+          ZMQ_LIBS: libzmq3-dev
 
       - name: Install TurboCov
-        run: sudo --set-home pie install shipmonk/turbocov:0.1.1
+        # PHP 8.6 support landed after the 0.1.1 release.
+        run: |
+          turbocov_source=$(mktemp -d)
+          curl -fsSL https://codeload.github.com/shipmonk-rnd/turbocov/tar.gz/0dbe4a90fa42d12c1a1460ab2c509d3aca36fa87 \
+            | tar -xz --strip-components=1 -C "$turbocov_source"
+          cd "$turbocov_source"
+          phpize
+          ./configure --enable-turbocov
+          make -j"$(nproc)"
+          sudo install -m 0644 modules/turbocov.so "$(php-config --extension-dir)/turbocov.so"
+          echo 'extension=turbocov.so' | sudo tee /etc/php/8.6/mods-available/turbocov.ini >/dev/null
+          sudo phpenmod -v 8.6 -s cli turbocov
+          php --ri turbocov
 
       - name: Install dependencies
         run: |

@@ -1,4 +1,4 @@
-FROM docker.io/library/php:8.5.12-cli-alpine3.24
+FROM docker.io/library/php:8.6.0-cli-alpine3.24
 
 ARG CADDY_ARCH
 
@@ -15,7 +15,22 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
     php -r "unlink('composer-setup.php');" && \
     mv composer.phar /usr/bin/composer && \
     apk --update --no-cache add wget git linux-headers build-base autoconf zeromq-dev zlib-dev && \
-    install-php-extensions pcntl bcmath sockets protobuf excimer redis
+    install-php-extensions pcntl bcmath sockets
+
+RUN apk add --no-cache lz4-dev zstd-dev \
+    && git clone https://github.com/phpredis/phpredis.git \
+    && git -C phpredis checkout --detach a17268cf750e552a86ce20d16e18e7fb6b384384 \
+    && git -C phpredis submodule update --init --recursive \
+    && docker-php-ext-configure /tmp/phpredis --enable-redis-lzf --enable-redis-zstd --enable-redis-lz4 --with-liblz4 \
+    && docker-php-ext-install -j"$(nproc)" /tmp/phpredis \
+    && rm -rf /tmp/phpredis
+
+RUN git clone https://github.com/wikimedia/php-excimer.git \
+    && git -C php-excimer checkout --detach 34183f9487bf95cd5b8dab50af737d19de5179f7 \
+    && docker-php-ext-install /tmp/php-excimer \
+    && rm -rf /tmp/php-excimer
+
+RUN install-php-extensions mbstring
 
 COPY . .
 

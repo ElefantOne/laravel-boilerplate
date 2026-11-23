@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c1705fb73f9281a0f511bf716063f4c5",
+    "content-hash": "5c733760b811f7d1769e7aa45b9dd1b8",
     "packages": [
         {
             "name": "archtechx/enums",
@@ -11398,11 +11398,11 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "2.3.5",
+            "version": "2.3.7",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/645a1bd6bead15fc1b8474137467961d0fa30a79",
-                "reference": "645a1bd6bead15fc1b8474137467961d0fa30a79",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/90c91c2498849ab8cc4e873864bbf1cb2bf6ea12",
+                "reference": "90c91c2498849ab8cc4e873864bbf1cb2bf6ea12",
                 "shasum": ""
             },
             "require": {
@@ -11458,7 +11458,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-11-03T12:14:22+00:00"
+            "time": "2026-11-19T10:31:11+00:00"
         },
         {
             "name": "phpstan/phpstan-deprecation-rules",
@@ -13789,12 +13789,12 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.5",
+        "php": "^8.6",
         "ext-zmq": "*"
     },
     "platform-dev": {},
     "platform-overrides": {
-        "php": "8.5.12"
+        "php": "8.6.0"
     },
     "plugin-api-version": "2.9.0"
 }
