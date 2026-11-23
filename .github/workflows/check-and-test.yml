@@ -30,7 +30,7 @@ jobs:
           tools: composer:v2, pie
 
       - name: Install TurboCov
-        run: sudo pie install shipmonk/turbocov:0.1.1
+        run: sudo --set-home pie install shipmonk/turbocov:0.1.1
 
       - name: Install dependencies
         run: |
