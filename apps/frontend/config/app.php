@@ -101,11 +101,10 @@ return [
 
     'key' => env('APP_KEY'),
 
-    'previous_keys' => [
-        ...array_filter(
-            explode(',', env('APP_PREVIOUS_KEYS', ''))
-        ),
-    ],
+    'previous_keys' => env('APP_PREVIOUS_KEYS', '')
+        |> explode(',', ?)
+        |> array_filter(...)
+        |> array_values(...),
 
     /*
     |--------------------------------------------------------------------------
